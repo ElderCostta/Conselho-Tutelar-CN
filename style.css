@@ -1,0 +1,93 @@
+body{
+
+font-family:'Times New Roman', Times, serif;
+background:#f4f4f4;
+text-align:center;
+
+}
+
+.menu button {
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+    
+    /* Adicionando cor padrão e borda para o botão ter corpo */
+    background-color: #f0f0f0; 
+    border: 1px solid #ccc;
+    cursor: pointer;
+    
+    /* O "segredo" para um efeito suave */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu button:hover {
+    /* Cor que aparecerá ao passar o mouse */
+    background-color: #007bff; 
+    color: white;
+    border-color: #0056b3;
+}
+
+.tela{
+
+display:none;
+margin-top:20px;
+
+}
+
+input, textarea{
+
+display:block;
+margin:10px auto;
+padding:8px;
+width:300px;
+
+}
+
+textarea{
+
+height:80px;
+
+}
+
+.card{
+
+background:white;
+padding:10px;
+margin:10px;
+border-radius:5px;
+
+}
+
+table{
+
+width:100%;
+border-collapse:collapse;
+background:white;
+
+}
+
+th,td{
+
+border:1px solid #999;
+padding:8px;
+text-align:center;
+
+}
+
+th{
+
+background:#e6e6e6;
+
+}
+
+@media print{
+
+button{
+display:none;
+}
+
+input{
+display:none;
+}
+
+}
