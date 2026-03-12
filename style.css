@@ -1,93 +1,116 @@
-body{
-
-font-family:'Times New Roman', Times, serif;
-background:#f4f4f4;
-text-align:center;
-
+/* Configuração Geral do Corpo do Sistema */
+body {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    
+    /* Imagem de Fundo Fixa */
+    background-image: url('pngtree-cartoon-happy-children-or-teenagers-characters-group-png-image_13007912.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 }
 
+/* --- ANIMAÇÃO DO TÍTULO --- */
+h1 {
+    font-size: 42px;
+    color:red; /* Azul escuro para contraste */
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8), 0px 0px 10px rgba(0,0,0,0.2);
+    margin-top: 30px;
+    
+    /* Aplica a animação: nome, duração, efeito de suavidade */
+    animation: aparecerDescer 1.5s ease-out;
+}
+
+/* Definição do movimento da animação */
+@keyframes aparecerDescer {
+    from {
+        opacity: 0;
+        transform: translateY(-50px); /* Começa acima */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Termina na posição original */
+    }
+}
+
+/* Botões do Menu */
 .menu button {
     padding: 10px;
     margin: 5px;
     font-size: 16px;
-    
-    /* Adicionando cor padrão e borda para o botão ter corpo */
     background-color: #f0f0f0; 
     border: 1px solid #ccc;
     cursor: pointer;
-    
-    /* O "segredo" para um efeito suave */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .menu button:hover {
-    /* Cor que aparecerá ao passar o mouse */
     background-color: #007bff; 
     color: white;
     border-color: #0056b3;
 }
 
-.tela{
-
-display:none;
-margin-top:20px;
-
+/* Telas, Cards e Tabelas (Fundo semi-transparente para leitura) */
+.tela, .card, table {
+    background: rgba(255, 255, 255, 0.93) !important;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+    max-width: 90%;
 }
 
-input, textarea{
-
-display:block;
-margin:10px auto;
-padding:8px;
-width:300px;
-
+.tela {
+    display: none;
 }
 
-textarea{
-
-height:80px;
-
+/* Campos de entrada */
+input, textarea {
+    display: block;
+    margin: 10px auto;
+    padding: 8px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.card{
-
-background:white;
-padding:10px;
-margin:10px;
-border-radius:5px;
-
+textarea {
+    height: 80px;
 }
 
-table{
-
-width:100%;
-border-collapse:collapse;
-background:white;
-
+/* Estilo da Tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-th,td{
-
-border:1px solid #999;
-padding:8px;
-text-align:center;
-
+th, td {
+    border: 1px solid #999;
+    padding: 8px;
+    text-align: center;
 }
 
-th{
-
-background:#e6e6e6;
-
+th {
+    background: #e6e6e6;
 }
 
-@media print{
-
-button{
-display:none;
+/* Configuração para Impressão */
+@media print {
+    button, input, .menu {
+        display: none !important;
+    }
+    body {
+        background: none; /* Remove o fundo na impressão para economizar tinta */
+    }
+    .tela {
+        display: block !important;
+        background: white !important;
+    }
+}
 }
 
-input{
-display:none;
-}
 
 }
