@@ -1,46 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>Conselho Tutelar CN</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Conselho Tutelar CN</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <h1>Conselho Tutelar/CN</h1>
-<img src="imagem_cortada_circular.png" alt="200">
+<img src="imagem_cortada_circular.png" alt="Logo" width="200">
 
 <div class="menu">
-
-<button onclick="mostrar('cadastro')">Cadastrar Caso</button>
-<button onclick="mostrar('lista')">Lista de Casos</button>
-<button onclick="mostrar('visita')">Agendar Visita</button>
-<button onclick="mostrar('registros')">N° De Registros</button>
-
+    <button onclick="mostrar('cadastro')">Cadastrar Caso</button>
+    <button onclick="mostrar('lista')">Lista de Casos</button>
+    <button onclick="mostrar('arquivados')">Casos Arquivados</button>
+<div id="arquivados" class="tela">
+    <h2>Casos Arquivados</h2>
+    <div id="listaArquivados"></div>
+</div>
+    <button onclick="mostrar('visita')">Agendar Visita</button>
+    <button onclick="mostrar('registros')">N° De Registros</button>
 </div>
 
 <div id="cadastro" class="tela">
-
-<h2>Novo Caso</h2>
-
-<input id="nome" placeholder="Nome da Criança/Adolescente">
-<input id="idade" placeholder="Idade">
-<input id="responsavel" placeholder="Responsável">
-<input id="endereco" placeholder="Endereço">
-
-<textarea id="descricao" placeholder="Descrição do caso"></textarea>
-
-<button onclick="salvarCaso()">Salvar Caso</button>
-
+    <h2>Novo Caso</h2>
+    <input id="nome" placeholder="Nome da Criança/Adolescente">
+    <input id="idade" placeholder="Idade">
+    <input id="responsavel" placeholder="Responsável">
+    <input id="endereco" placeholder="Endereço">
+    <textarea id="descricao" placeholder="Descrição do caso"></textarea>
+    <button onclick="salvarCaso()">Salvar Caso</button>
 </div>
 
 <div id="lista" class="tela">
-
-<h2>Casos Cadastrados</h2>
-
-<div id="casos"></div>
-
+    <h2>Casos Cadastrados</h2>
+    <div id="casos"></div>
 </div>
 
 <div id="visita" class="tela">
@@ -48,81 +42,40 @@
     <input id="vnome" placeholder="Nome">
     <input id="vendereco" placeholder="Endereço">
     <input type="date" id="vdata">
-    <input type="time" id="vhora"> <textarea id="vobs" placeholder="Observação"></textarea>
-    
+    <input type="time" id="vhora">
+    <textarea id="vobs" placeholder="Observação"></textarea>
     <button onclick="salvarVisita()">Salvar Visita</button>
-    
     <div id="listaVisitas"></div>
-    
     <audio id="somNotificacao" src="Msn.mp3"></audio>
 </div>
 
-<input id="vnome" placeholder="Nome">
-<input id="vendereco" placeholder="Endereço">
-<input type="date" id="vdata">
-
-<textarea id="vobs" placeholder="Observação"></textarea>
-
-<button onclick="salvarVisita()">Salvar Visita</button>
-
-<div id="listaVisitas"></div>
-
-</div>
-
-<nav>
-<button onclick="mostrarTela('registros')">N° DE REGISTROS</button>
-</nav>
-
-<section id="registros" class="tela">
-
-<h3>NÚMERO DE REGISTRO</h3>
-
-<div class="formulario">
-
-<input type="text" id="nreg" placeholder="N° NREG">
-
-<input type="text" id="denuncia" placeholder="Tipo de Denúncia">
-
-<input type="text" id="crianca" placeholder="Criança ou Adolescente">
-
-<input type="text" id="bairro" placeholder="Bairro">
-
-<input type="date" id="data">
-
-<input type="text" id="visto" placeholder="Visto">
-
-<button onclick="salvarRegistro()">Salvar Registro</button>
-
-<button onclick="imprimir()">🖨 Imprimir Registros</button>
-
-</div>
-
-<table id="tabelaRegistros">
-
-<thead>
-
-<tr>
-<th>N° NREG</th>
-<th>TIPO DE DENÚNCIA</th>
-<th>CRIANÇA OU ADOLESCENTE</th>
-<th>BAIRRO</th>
-<th>DATA</th>
-<th>VISTO</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-</tbody>
-
-</table>
-
-</section>
-
+<div id="registros" class="tela">
+    <h3>NÚMERO DE REGISTRO</h3>
+    <div class="formulario">
+        <input type="text" id="nreg" placeholder="N° NREG">
+        <input type="text" id="denuncia" placeholder="Tipo de Denúncia">
+        <input type="text" id="crianca" placeholder="Criança ou Adolescente">
+        <input type="text" id="bairro" placeholder="Bairro">
+        <input type="date" id="data">
+        <input type="text" id="visto" placeholder="Visto">
+        <button onclick="salvarRegistro()">Salvar Registro</button>
+        <button onclick="imprimir()">🖨 Imprimir Registros</button>
+    </div>
+    <table id="tabelaRegistros">
+        <thead>
+            <tr>
+                <th>N° NREG</th>
+                <th>TIPO DE DENÚNCIA</th>
+                <th>CRIANÇA OU ADOLESCENTE</th>
+                <th>BAIRRO</th>
+                <th>DATA</th>
+                <th>VISTO</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 </div>
 
 <script src="Script.js"></script>
-
 </body>
 </html>
