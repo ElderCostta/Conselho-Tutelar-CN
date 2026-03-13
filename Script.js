@@ -1,130 +1,84 @@
-function mostrar(id){
+function mostrar(id) {
+    document.querySelectorAll(".tela").forEach(t => t.style.display = "none");
+    document.getElementById(id).style.display = "block";
 
-document.querySelectorAll(".tela")
-.forEach(t => t.style.display="none")
-
-document.getElementById(id).style.display="block"
-
-if(id=="lista") carregarCasos()
-
-if(id=="visita") carregarVisitas()
-
+    if (id == "lista") carregarCasos();
+    if (id == "visita") carregarVisitas();
 }
 
-function salvarCaso(){
+function salvarCaso() {
+    let caso = {
+        nome: document.getElementById("nome").value,
+        idade: document.getElementById("idade").value,
+        responsavel: document.getElementById("responsavel").value,
+        endereco: document.getElementById("endereco").value,
+        descricao: document.getElementById("descricao").value
+    };
 
-let caso={
+    let casos = JSON.parse(localStorage.getItem("casos")) || [];
+    casos.push(caso);
+    localStorage.setItem("casos", JSON.stringify(casos));
 
-nome:document.getElementById("nome").value,
-idade:document.getElementById("idade").value,
-responsavel:document.getElementById("responsavel").value,
-endereco:document.getElementById("endereco").value,
-descricao:document.getElementById("descricao").value
-
+    alert("Caso salvo!");
+    // Limpa os campos após salvar
+    document.getElementById("nome").value = "";
+    document.getElementById("idade").value = "";
+    document.getElementById("responsavel").value = "";
+    document.getElementById("endereco").value = "";
+    document.getElementById("descricao").value = "";
 }
 
-let casos=JSON.parse(localStorage.getItem("casos"))||[]
+function carregarCasos() {
+    let casos = JSON.parse(localStorage.getItem("casos")) || [];
+    let html = "";
 
-casos.push(caso)
+    casos.forEach((c, i) => {
+        html += `
+        <div class="card">
+            <b>${c.nome}</b><br>
+            Idade: ${c.idade}<br>
+            Responsável: ${c.responsavel}<br>
+            Endereço: ${c.endereco}<br>
+            Caso: ${c.descricao}<br>
+            <button onclick="arquivar(${i})" style="background:#dc3545; color:white; border:none; padding:5px; border-radius:3px; cursor:pointer;">Arquivar Caso</button>
+        </div>`;
+    });
 
-localStorage.setItem("casos",JSON.stringify(casos))
-
-alert("Caso salvo!")
-
+    document.getElementById("casos").innerHTML = html || "<p>Nenhum caso encontrado.</p>";
 }
 
-function carregarCasos(){
+function arquivar(i) {
+    let casos = JSON.parse(localStorage.getItem("casos")) || [];
+    let arquivados = JSON.parse(localStorage.getItem("arquivados")) || [];
 
-let casos=JSON.parse(localStorage.getItem("casos"))||[]
+    arquivados.push(casos[i]);
+    casos.splice(i, 1);
 
-let html=""
+    localStorage.setItem("casos", JSON.stringify(casos));
+    localStorage.setItem("arquivados", JSON.stringify(arquivados));
 
-casos.forEach((c,i)=>{
-
-html+=`
-
-<div class="card">
-
-<b>${c.nome}</b><br>
-Idade: ${c.idade}<br>
-Responsável: ${c.responsavel}<br>
-Endereço: ${c.endereco}<br>
-Caso: ${c.descricao}<br>
-
-<button onclick="arquivar(${i})">Arquivar</button>
-
-</div>
-
-`
-
-})
-
-document.getElementById("casos").innerHTML=html
-
+    carregarCasos();
+    alert("Caso arquivado!");
 }
 
-function arquivar(i){
-
-let casos=JSON.parse(localStorage.getItem("casos"))||[]
-let arquivados=JSON.parse(localStorage.getItem("arquivados"))||[]
-
-arquivados.push(casos[i])
-
-casos.splice(i,1)
-
-localStorage.setItem("casos",JSON.stringify(casos))
-localStorage.setItem("arquivados",JSON.stringify(arquivados))
-
-carregarCasos()
-
-}
-
-function salvarVisita(){
+function salvarVisita() {
     let visita = {
         nome: document.getElementById("vnome").value,
         endereco: document.getElementById("vendereco").value,
         data: document.getElementById("vdata").value,
-        hora: document.getElementById("vhora").value, // Guarda o horário
+        hora: document.getElementById("vhora").value,
         obs: document.getElementById("vobs").value,
-        notificado: false // Impede que o som toque várias vezes seguidas
-    }
+        notificado: false
+    };
 
     let visitas = JSON.parse(localStorage.getItem("visitas")) || [];
     visitas.push(visita);
     localStorage.setItem("visitas", JSON.stringify(visitas));
 
-    alert("Visita agendada com sucesso!");
+    alert("Visita agendada!");
     carregarVisitas();
 }
 
-// Função que verifica o relógio a cada minuto
-function verificarAlarme() {
-    let visitas = JSON.parse(localStorage.getItem("visitas")) || [];
-    let agora = new Date();
-    
-    // Formata a data (AAAA-MM-DD) e hora (HH:mm) atual
-    let dataHoje = agora.toISOString().split('T')[0];
-    let horaAgora = agora.getHours().toString().padStart(2, '0') + ":" + 
-                    agora.getMinutes().toString().padStart(2, '0');
-
-    let mudanca = false;
-
-    visitas.forEach((v, i) => {
-        if (v.data === dataHoje && v.hora === horaAgora && !v.notificado) {
-            document.getElementById("somNotificacao").play();
-            alert(`Lembrete de Visita: ${v.nome} em ${v.endereco}`);
-            visitas[i].notificado = true; // Marca como lido
-            mudanca = true;
-        }
-    });
-
-    if (mudanca) {
-        localStorage.setItem("visitas", JSON.stringify(visitas));
-    }
-}
-
-// Inicia a verificação automática (corre a cada 30 segundos)
-setInterval(verificarAlarme, 30000);
 function carregarVisitas() {
     let visitas = JSON.parse(localStorage.getItem("visitas")) || [];
     let html = "<h3>Visitas Agendadas</h3>";
@@ -134,193 +88,121 @@ function carregarVisitas() {
         <div class="card">
             <strong>${v.nome}</strong><br>
             Local: ${v.endereco}<br>
-            Data: ${v.data} | <strong>Hora: ${v.hora}</strong><br>
+            Data: ${v.data} | Hora: ${v.hora}<br>
             Obs: ${v.obs}
-        </div>
-        `;
+        </div>`;
     });
 
     document.getElementById("listaVisitas").innerHTML = html;
 }
 
-
-function mostrarTela(id){
-
-document.querySelectorAll(".tela").forEach(tela => {
-
-tela.style.display="none";
-
-});
-
-document.getElementById(id).style.display="block";
-
-}
-
-mostrarTela("registros");
-
-
-
-function salvarRegistro(){
-
-let nreg = document.getElementById("nreg").value;
-let denuncia = document.getElementById("denuncia").value;
-let crianca = document.getElementById("crianca").value;
-let bairro = document.getElementById("bairro").value;
-let data = document.getElementById("data").value;
-let visto = document.getElementById("visto").value;
-
-let tabela = document.querySelector("#tabelaRegistros tbody");
-
-let linha = tabela.insertRow();
-
-linha.insertCell(0).innerText = nreg;
-linha.insertCell(1).innerText = denuncia;
-linha.insertCell(2).innerText = crianca;
-linha.insertCell(3).innerText = bairro;
-linha.insertCell(4).innerText = data;
-linha.insertCell(5).innerText = visto;
-
-salvarLocal();
-
-limparCampos();
-
-}
-
-function limparCampos(){
-
-document.getElementById("nreg").value="";
-document.getElementById("denuncia").value="";
-document.getElementById("crianca").value="";
-document.getElementById("bairro").value="";
-document.getElementById("data").value="";
-document.getElementById("visto").value="";
-
-}
-
-
-
-function salvarLocal(){
-
-let dados=[];
-
-document.querySelectorAll("#tabelaRegistros tbody tr").forEach(linha=>{
-
-let registro=[];
-
-linha.querySelectorAll("td").forEach(coluna=>{
-
-registro.push(coluna.innerText);
-
-});
-
-dados.push(registro);
-
-});
-
-localStorage.setItem("registrosCT",JSON.stringify(dados));
-
-}
-
-
-
-function carregarRegistros(){
-
-let dados = JSON.parse(localStorage.getItem("registrosCT")) || [];
-
-let tabela = document.querySelector("#tabelaRegistros tbody");
-
-dados.forEach(registro=>{
-
-let linha = tabela.insertRow();
-
-registro.forEach(campo=>{
-
-linha.insertCell().innerText=campo;
-
-});
-
-});
-
-}
-
-carregarRegistros();
-
-
-
-function imprimir(){
-
-window.print();
-
-}
-
-function verificarAgendamentos() {
+function verificarRelogio() {
     let visitas = JSON.parse(localStorage.getItem("visitas")) || [];
     let agora = new Date();
-    
-    // Formata data e hora atual para comparação (YYYY-MM-DD e HH:mm)
-    let dataAtual = agora.toISOString().split('T')[0];
-    let horaAtual = agora.getHours().toString().padStart(2, '0') + ":" + 
+    let dataHoje = agora.toISOString().split('T')[0];
+    let horaAgora = agora.getHours().toString().padStart(2, '0') + ":" + 
                     agora.getMinutes().toString().padStart(2, '0');
 
     let houveMudanca = false;
 
-    visitas.forEach(v => {
-        if (v.data === dataAtual && v.hora === horaAtual && !v.notificado) {
-            document.getElementById("somNotificacao").play();
-            alert(`NOTIFICAÇÃO: Visita agora para ${v.nome} em ${v.endereco}`);
-            v.notificado = true; // Marca como notificado para não tocar de novo
-            houveMudanca = true;
-        }
-    });
-
-    if (houveMudanca) {
-        localStorage.setItem("visitas", JSON.stringify(visitas));
-    }
-}
-
-// Verifica a cada 30 segundos
-
-// CÓDIGO CORRIGIDO E UNIFICADO
-function verificarRelogio() {
-    let visitas = JSON.parse(localStorage.getItem("visitas")) || [];
-    let agora = new Date();
-    
-    // Pega a data local (Ano-Mês-Dia)
-    let ano = agora.getFullYear();
-    let mes = String(agora.getMonth() + 1).padStart(2, '0');
-    let dia = String(agora.getDate()).padStart(2, '0');
-    let dataHoje = `${ano}-${mes}-${dia}`;
-    
-    // Pega a hora local (Hora:Minuto)
-    let horaAgora = String(agora.getHours()).padStart(2, '0') + ":" + 
-                    String(agora.getMinutes()).padStart(2, '0');
-
-    let houveMudanca = false;
-
     visitas.forEach((v, index) => {
-        // Verifica se a data e hora batem e se ainda não notificou
         if (v.data === dataHoje && v.hora === horaAgora && !v.notificado) {
-            
-            // Toca o som
             let som = document.getElementById("somNotificacao");
-            if (som) {
-                som.play().catch(e => console.log("Clique na página para ativar o áudio"));
-            }
-            
-            // Mostra o alerta na tela
+            if (som) som.play().catch(() => {});
             alert(`🔔 HORA DA VISITA!\nNome: ${v.nome}\nEndereço: ${v.endereco}`);
-            
-            // Marca como notificado para não repetir
             visitas[index].notificado = true;
             houveMudanca = true;
         }
     });
 
-    // Salva no banco apenas se houve notificação
-    if (houveMudanca) {
-        localStorage.setItem("visitas", JSON.stringify(visitas));
-    }
+    if (houveMudanca) localStorage.setItem("visitas", JSON.stringify(visitas));
 }
 
-// Inicia a verificação a cada 30 segundos
 setInterval(verificarRelogio, 30000);
+
+function salvarRegistro() {
+    let registro = [
+        document.getElementById("nreg").value,
+        document.getElementById("denuncia").value,
+        document.getElementById("crianca").value,
+        document.getElementById("bairro").value,
+        document.getElementById("data").value,
+        document.getElementById("visto").value
+    ];
+
+    let dados = JSON.parse(localStorage.getItem("registrosCT")) || [];
+    dados.push(registro);
+    localStorage.setItem("registrosCT", JSON.stringify(dados));
+
+    renderizarTabela();
+    limparCamposRegistro();
+}
+
+function renderizarTabela() {
+    let dados = JSON.parse(localStorage.getItem("registrosCT")) || [];
+    let corpoTabela = document.querySelector("#tabelaRegistros tbody");
+    corpoTabela.innerHTML = "";
+
+    dados.forEach(registro => {
+        let linha = corpoTabela.insertRow();
+        registro.forEach(campo => {
+            linha.insertCell().innerText = campo;
+        });
+    });
+}
+
+function limparCamposRegistro() {
+    ["nreg", "denuncia", "crianca", "bairro", "data", "visto"].forEach(id => {
+        document.getElementById(id).value = "";
+    });
+}
+
+function imprimir() { window.print(); }
+
+// Inicialização
+window.onload = function() {
+    renderizarTabela();
+    mostrar('cadastro'); // Inicia na tela de cadastro
+};
+
+// 1. Atualize a função mostrar para incluir a lógica de carregar os arquivados
+function mostrar(id) {
+    document.querySelectorAll(".tela").forEach(t => t.style.display = "none");
+    document.getElementById(id).style.display = "block";
+
+    if (id == "lista") carregarCasos();
+    if (id == "visita") carregarVisitas();
+    if (id == "arquivados") carregarArquivados(); // Nova verificação
+}
+
+// 2. Adicione a função para listar os casos que foram arquivados
+function carregarArquivados() {
+    let arquivados = JSON.parse(localStorage.getItem("arquivados")) || [];
+    let html = "";
+
+    if (arquivados.length === 0) {
+        html = "<p style='color: gray;'>Nenhum caso arquivado.</p>";
+    } else {
+        arquivados.forEach((c, i) => {
+            html += `
+            <div class="card" style="border-left: 5px solid #6c757d;">
+                <b>${c.nome}</b> (Arquivado)<br>
+                Descricao: ${c.descricao}<br>
+                <button onclick="excluirArquivado(${i})" style="margin-top:10px; background:#212529; color:white; border:none; padding:5px 10px; border-radius:3px; cursor:pointer;">
+                    Excluir Permanentemente
+                </button>
+            </div>`;
+        });
+    }
+    document.getElementById("listaArquivados").innerHTML = html;
+}
+
+// 3. Função opcional para apagar um caso arquivado para sempre
+function excluirArquivado(i) {
+    if (confirm("Tem certeza que deseja excluir permanentemente este registro?")) {
+        let arquivados = JSON.parse(localStorage.getItem("arquivados")) || [];
+        arquivados.splice(i, 1);
+        localStorage.setItem("arquivados", JSON.stringify(arquivados));
+        carregarArquivados();
+    }
+}
