@@ -1,116 +1,219 @@
-/* Configuração Geral do Corpo do Sistema */
-body {
-    font-family: 'Times New Roman', Times, serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    
-    /* Imagem de Fundo Fixa */
-    background-image: url('pngtree-cartoon-happy-children-or-teenagers-characters-group-png-image_13007912.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+body{
+
+font-family:'Times New Roman', Times, serif;
+background:#f4f4f4;
+text-align:center;
+
 }
 
-/* --- ANIMAÇÃO DO TÍTULO --- */
-h1 {
-    font-size: 42px;
-    color:red; /* Azul escuro para contraste */
-    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8), 0px 0px 10px rgba(0,0,0,0.2);
-    margin-top: 30px;
-    
-    /* Aplica a animação: nome, duração, efeito de suavidade */
-    animation: aparecerDescer 1.5s ease-out;
-}
-
-/* Definição do movimento da animação */
-@keyframes aparecerDescer {
-    from {
-        opacity: 0;
-        transform: translateY(-50px); /* Começa acima */
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0); /* Termina na posição original */
-    }
-}
-
-/* Botões do Menu */
 .menu button {
     padding: 10px;
     margin: 5px;
     font-size: 16px;
+    
+    /* Adicionando cor padrão e borda para o botão ter corpo */
     background-color: #f0f0f0; 
     border: 1px solid #ccc;
     cursor: pointer;
+    
+    /* O "segredo" para um efeito suave */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .menu button:hover {
+    /* Cor que aparecerá ao passar o mouse */
     background-color: #007bff; 
     color: white;
     border-color: #0056b3;
 }
 
-/* Telas, Cards e Tabelas (Fundo semi-transparente para leitura) */
-.tela, .card, table {
-    background: rgba(255, 255, 255, 0.93) !important;
-    padding: 20px;
-    margin: 20px auto;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
-    max-width: 90%;
+.tela{
+
+display:none;
+margin-top:20px;
+
 }
 
-.tela {
-    display: none;
+input, textarea{
+
+display:block;
+margin:10px auto;
+padding:8px;
+width:300px;
+
 }
 
-/* Campos de entrada */
-input, textarea {
-    display: block;
-    margin: 10px auto;
-    padding: 8px;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+textarea{
+
+height:80px;
+
 }
 
-textarea {
-    height: 80px;
+.card{
+
+background:white;
+padding:10px;
+margin:10px;
+border-radius:5px;
+
 }
 
-/* Estilo da Tabela */
-table {
+table{
+
+width:100%;
+border-collapse:collapse;
+background:white;
+
+}
+
+th,td{
+
+border:1px solid #999;
+padding:8px;
+text-align:center;
+
+}
+
+th{
+
+background:#e6e6e6;
+
+}
+
+@media print{
+
+button{
+display:none;
+}
+
+input{
+display:none;
+}
+
+}
+
+/* No seu style.css */
+#telaLogin input {
+    width: 90%; /* Ajuste para não quebrar o layout do card de login */
+}
+
+/* --- ESTILOS EXCLUSIVOS DA TELA DE LOGIN --- */
+
+/* Container principal que ocupa a tela toda com o fundo das crianças */
+.fundo-login-animado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    border-collapse: collapse;
+    height: 100%;
+    
+    /* Define a imagem de fundo fornecida */
+    background-image: url('25385013-feliz-desenho-animado-criancas-e-adolescentes-personagens-grupo-vetor.jpg');
+    
+    /* Garante que a imagem cubra toda a tela e fique centralizada */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    z-index: 9999; /* Mantém acima de tudo */
 }
 
-th, td {
-    border: 1px solid #999;
-    padding: 8px;
+/* O cartão branco onde ficam os campos de login */
+.card-login {
+    background: rgba(255, 255, 255, 0.95); /* Branco levemente transparente */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* Sombra mais suave */
+    width: 350px;
     text-align: center;
 }
 
-th {
-    background: #e6e6e6;
+/* Estilização da logomarca dentro do cartão */
+.logo-login {
+    width: 120px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
+    margin-bottom: 20px; /* Espaço entre a logo e o título */
 }
 
-/* Configuração para Impressão */
-@media print {
-    button, input, .menu {
-        display: none !important;
-    }
-    body {
-        background: none; /* Remove o fundo na impressão para economizar tinta */
-    }
-    .tela {
-        display: block !important;
-        background: white !important;
-    }
-}
+/* Garante que os inputs no login fiquem bem ajustados */
+.card-login input {
+    width: 90%; 
+    margin-bottom: 15px;
 }
 
+/* Estilo do botão de login */
+.botao-login {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
+.botao-login:hover {
+    background-color: #0056b3;
+}
+
+/* --- NOVAS PERSONALIZAÇÕES --- */
+
+/* 1. Imagem de Fundo para o Sistema */
+body {
+    /* Define a imagem salva como fundo */
+    background-image: url('8d2193f9d2a7336cc30cc8deb2ea72ced36cde41.jpg');
+    
+    /* Garante que a imagem preencha toda a tela sem distorcer */
+    background-size: cover;
+    
+    /* Centraliza a imagem na tela */
+    background-position: center;
+    
+    /* Impede que a imagem se repita como mosaico */
+    background-repeat: no-repeat;
+    
+    /* Garante que o fundo ocupe toda a altura da janela */
+    background-attachment: fixed;
+}
+
+/* 2. Animação do Título */
+
+/* Estilo inicial do título (h1) */
+h1 {
+    font-size: 3em; /* Aumenta um pouco o tamanho para destacar */
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Adiciona uma sombra para ler melhor sobre o fundo */
+    
+    /* CHAMA A ANIMAÇÃO:
+       - Nome da animação: coresDoTitulo
+       - Duração: 10 segundos
+       - Tipo de tempo: suave (ease-in-out)
+       - Repetição: infinita (infinite)
+    */
+    animation: coresDoTitulo 10s ease-in-out infinite;
+}
+
+/* CRIAÇÃO DA ANIMAÇÃO (Definindo as cores)
+   A animação passará por estas cores ao longo do tempo.
+*/
+@keyframes coresDoTitulo {
+    0%   { color: #004085; } /* Azul escuro inicial */
+    25%  { color: #28a745; } /* Verde */
+    50%  { color: #dc3545; } /* Vermelho */
+    75%  { color: #ffc107; } /* Amarelo */
+    100% { color: #004085; } /* Volta para o azul escuro para fechar o ciclo */
+}
+
+.tela {
+    background: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 20px auto;
 }
