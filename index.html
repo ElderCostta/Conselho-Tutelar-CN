@@ -6,6 +6,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="telaLogin" class="fundo-login-animado">
+    <div class="card-login">
+        <img src="imagem_cortada_circular.png" alt="Logomarca Conselho Tutelar" class="logo-login">
+        
+        <h2>Acesso ao Sistema</h2>
+        <input type="text" id="usuarioLogin" placeholder="Usuário">
+        <input type="password" id="senhaLogin" placeholder="Senha">
+        <button onclick="fazerLogin()" class="botao-login">Entrar</button>
+        <p id="erroLogin" style="color: red; display: none; margin-top: 10px;">Usuário ou senha incorretos!</p>
+    </div>
+</div>
 
 <h1>Conselho Tutelar/CN</h1>
 <img src="imagem_cortada_circular.png" alt="Logo" width="200">
@@ -81,4 +92,5 @@
 <script src="Script.js"></script>
 </body>
 </html>
+
 
