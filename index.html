@@ -2,69 +2,100 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Conselho Tutelar CN</title>
+    <title>Conselho Tutelar CN - Sistema de Gestão</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="telaLogin" class="fundo-login-animado">
-    <div class="card-login">
-        <img src="imagem_cortada_circular.png" alt="Logomarca Conselho Tutelar" class="logo-login">
-        
-        <h2>Acesso ao Sistema</h2>
-        <input type="text" id="usuarioLogin" placeholder="Usuário">
-        <input type="password" id="senhaLogin" placeholder="Senha">
-        <button onclick="fazerLogin()" class="botao-login">Entrar</button>
-        <p id="erroLogin" style="color: red; display: none; margin-top: 10px;">Usuário ou senha incorretos!</p>
+        <div class="card-login">
+            <img src="imagem_cortada_circular.png" alt="Logomarca" class="logo-login">
+            <h2>Acesso ao Sistema</h2>
+            <input type="text" id="usuarioLogin" placeholder="Usuário">
+            <input type="password" id="senhaLogin" placeholder="Senha">
+            <button onclick="fazerLogin()" class="botao-login">Entrar</button>
+            <p id="erroLogin" style="color: red; display: none; margin-top: 10px;">Usuário ou senha incorretos!</p>
+        </div>
     </div>
-</div>
 
-<h1>Conselho Tutelar/CN</h1>
-<img src="imagem_cortada_circular.png" alt="Logo" width="200">
+    <div id="conteudoSistema" class="container-geral" style="display:none;">
+        
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="imagem_cortada_circular.png" alt="Logo" class="logo-sidebar">
+                <h3>CT DE CURRAIS NOVOS</h3>
+            </div>
+            <ul class="menu-lateral">
+                <li><button onclick="mostrar('dashboard')">📊 Dashboard</button></li>
+                <li><button onclick="mostrar('cadastro')">📝 Novo Caso</button></li>
+                <li><button onclick="mostrar('lista')">📁 Casos Ativos</button></li>
+                <li><button onclick="mostrar('arquivados')">🗄️ Arquivados</button></li>
+                <li><button onclick="mostrar('visita')">🗓️ Agenda</button></li>
+                <li><button onclick="mostrar('registros')">📋 N° Registros</button></li>
+                <li class="separador"></li>
+                <li><button onclick="location.reload()" class="btn-sair">🚪 Sair</button></li>
+            </ul>
+        </nav>
 
-<div class="menu">
-    <button onclick="mostrar('cadastro')">Cadastrar Caso</button>
-    <button onclick="mostrar('lista')">Lista de Casos</button>
-    <button onclick="mostrar('arquivados')">Casos Arquivados</button>
-    <button onclick="mostrar('visita')">Agendar Visita</button>
-    <button onclick="mostrar('registros')">N° De Registros</button>
-</div> <div id="arquivados" class="tela" style="display:none;">
-    <h2>Casos Arquivados</h2>
-    <div id="listaArquivados"></div>
-</div>
-    <button onclick="mostrar('visita')">Agendar Visita</button>
-    <button onclick="mostrar('registros')">N° De Registros</button>
-</div>
+        <main class="main-content">
+            
+            <div id="dashboard" class="tela">
+                <h1 class="titulo-animado">Conselho Tutelar / CN</h1>
+                <div class="cards-indicadores">
+                    <div class="card-info azul">
+                        <h4 id="countAtivos">0</h4>
+                        <p>Casos Ativos</p>
+                    </div>
+                    <div class="card-info verde">
+                        <h4 id="countVisitas">0</h4>
+                        <p>Visitas Hoje</p>
+                    </div>
+                    <div class="card-info cinza">
+                        <h4 id="countArquivados">0</h4>
+                        <p>Arquivados</p>
+                    </div>
+                </div>
+            </div>
 
-<div id="cadastro" class="tela">
-    <h2>Novo Caso</h2>
-    <input id="nome" placeholder="Nome da Criança/Adolescente">
-    <input id="idade" placeholder="Idade">
-    <input id="responsavel" placeholder="Responsável">
-    <input id="endereco" placeholder="Endereço">
-    <textarea id="descricao" placeholder="Descrição do caso"></textarea>
-    <button onclick="salvarCaso()">Salvar Caso</button>
-</div>
+            <div id="cadastro" class="tela" style="display:none;">
+                <h2>Novo Caso</h2>
+                <input id="nome" placeholder="Nome da Criança/Adolescente">
+                <input id="idade" placeholder="Idade">
+                <input id="responsavel" placeholder="Responsável">
+                <input id="endereco" placeholder="Endereço">
+                <textarea id="descricao" placeholder="Descrição do caso"></textarea>
+                <button class="botao-acao" onclick="salvarCaso()">Salvar Caso</button>
+            </div>
 
-<div id="lista" class="tela">
-    <h2>Casos Cadastrados</h2>
-    <div id="casos"></div>
-</div>
+            <div id="lista" class="tela" style="display:none;">
+                <h2>Casos Cadastrados</h2>
+                <div id="casos"></div>
+            </div>
 
-<div id="visita" class="tela">
-    <h2>Agendar Visita</h2>
-    <input id="vnome" placeholder="Nome">
-    <input id="vendereco" placeholder="Endereço">
-    <input type="date" id="vdata">
-    <input type="time" id="vhora">
-    <textarea id="vobs" placeholder="Observação"></textarea>
-    <button onclick="salvarVisita()">Salvar Visita</button>
-    <div id="listaVisitas"></div>
-    <audio id="somNotificacao" src="Msn.mp3"></audio>
-</div>
+            <div id="arquivados" class="tela" style="display:none;">
+                <h2>Casos Arquivados</h2>
+                <div id="listaArquivados"></div>
+            </div>
 
-<div id="registros" class="tela">
-    <h3>NÚMERO DE REGISTRO</h3>
+            <div id="visita" class="tela" style="display:none;">
+                <h2>Agendar Visita</h2>
+                <input id="vnome" placeholder="Nome">
+                <input id="vendereco" placeholder="Endereço">
+                <input type="date" id="vdata">
+                <input type="time" id="vhora">
+                <textarea id="vobs" placeholder="Observação"></textarea>
+                <button class="botao-acao" onclick="salvarVisita()">Salvar Visita</button>
+                <div id="listaVisitas"></div>
+                <audio id="somNotificacao" src="Msn.mp3"></audio>
+            </div>
+
+      <div id="registros" class="tela">
+    <div class="cabecalho-impressao">
+        <img src="imagem_cortada_circular.png" alt="Logo">
+        <h1>Conselho Tutelar / CN</h1>
+    </div>
+
     <div class="formulario">
+        <h3>NÚMERO DE REGISTRO</h3>
         <input type="text" id="nreg" placeholder="N° NREG">
         <input type="text" id="denuncia" placeholder="Tipo de Denúncia">
         <input type="text" id="crianca" placeholder="Criança ou Adolescente">
@@ -74,6 +105,7 @@
         <button onclick="salvarRegistro()">Salvar Registro</button>
         <button onclick="imprimir()">🖨 Imprimir Registros</button>
     </div>
+
     <table id="tabelaRegistros">
         <thead>
             <tr>
@@ -89,8 +121,6 @@
     </table>
 </div>
 
-<script src="Script.js"></script>
+    <script src="Script.js"></script>
 </body>
 </html>
-
-
