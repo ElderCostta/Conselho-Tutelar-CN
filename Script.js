@@ -8,31 +8,54 @@ function fazerLogin() {
     const erro = document.getElementById("erroLogin");
 
     if (usuarioInserido.toUpperCase() === usuarioCorreto && senhaInserida === senhaCorreta) {
+        // Esconde a tela de login
         document.getElementById("telaLogin").style.display = "none";
-        document.getElementById("conteudoSistema").style.display = "block";
+        
+        // Seleciona o conteúdo principal do sistema
+        const conteudo = document.getElementById("conteudoSistema");
+        conteudo.style.display = "block";
+        
+        // Adiciona a classe de animação para o conteúdo surgir suavemente
+        conteudo.classList.add("animar-entrada");
+        
         mostrar('cadastro'); // Inicia na tela de cadastro após logar
     } else {
         erro.style.display = "block";
     }
 }
 
-// --- NAVEGAÇÃO ---
+// --- NAVEGAÇÃO E ATUALIZAÇÃO ---
 function mostrar(id) {
-    // Esconde todas as telas
     document.querySelectorAll(".tela").forEach(t => t.style.display = "none");
-    
-    // Mostra a tela desejada
     const telaAlvo = document.getElementById(id);
-    if (telaAlvo) {
-        telaAlvo.style.display = "block";
-    }
+    if (telaAlvo) telaAlvo.style.display = "block";
 
-    // Carrega os dados específicos de cada tela
-    if (id == "lista") carregarCasos();
-    if (id == "visita") carregarVisitas();
-    if (id == "arquivados") carregarArquivados();
-    if (id == "registros") renderizarTabela();
+    // Lógicas específicas
+    if (id === "dashboard") atualizarDashboard();
+    if (id === "lista") carregarCasos();
+    if (id === "visita") carregarVisitas();
+    if (id === "arquivados") carregarArquivados();
+    if (id === "registros") renderizarTabela();
 }
+
+// --- FUNÇÃO DO DASHBOARD (FEEDBACK VISUAL) ---
+function atualizarDashboard() {
+    const casos = JSON.parse(localStorage.getItem("casos")) || [];
+    const visitas = JSON.parse(localStorage.getItem("visitas")) || [];
+    const arquivados = JSON.parse(localStorage.getItem("arquivados")) || [];
+    
+    const hoje = new Date().toISOString().split('T')[0];
+    const visitasHoje = visitas.filter(v => v.data === hoje).length;
+
+    document.getElementById("countAtivos").innerText = casos.length;
+    document.getElementById("countVisitas").innerText = visitasHoje;
+    document.getElementById("countArquivados").innerText = arquivados.length;
+}
+
+// ... (Mantenha aqui suas funções salvarCaso, carregarCasos, arquivar, salvarVisita, etc., do seu script original) ...
+
+// Apenas certifique-se de que renderizarTabela e verificarRelogio continuem rodando
+setInterval(verificarRelogio, 30000);
 
 // --- GESTÃO DE CASOS ATIVOS ---
 function salvarCaso() {
@@ -202,30 +225,51 @@ function salvarRegistro() {
     limparCamposRegistro();
 }
 
+// --- ATUALIZAÇÃO DA TABELA COM BOTÃO EXCLUIR ---
 function renderizarTabela() {
     let dados = JSON.parse(localStorage.getItem("registrosCT")) || [];
     let corpoTabela = document.querySelector("#tabelaRegistros tbody");
     if(!corpoTabela) return;
     
     corpoTabela.innerHTML = "";
-    dados.forEach(registro => {
+    
+    dados.forEach((registro, index) => {
         let linha = corpoTabela.insertRow();
+        
+        // Insere os dados normais
         registro.forEach(campo => {
             linha.insertCell().innerText = campo;
         });
+
+        // Insere a célula do botão de excluir
+        let celulaAcoes = linha.insertCell();
+        celulaAcoes.innerHTML = `
+            <button onclick="excluirRegistro(${index})" style="background:#dc3545; color:white; border:none; padding:5px 10px; border-radius:3px; cursor:pointer;">
+                Apagar
+            </button>
+        `;
     });
 }
 
-function limparCamposRegistro() {
-    ["nreg", "denuncia", "crianca", "bairro", "data", "visto"].forEach(id => {
-        document.getElementById(id).value = "";
-    });
+// --- FUNÇÃO PARA APAGAR O REGISTRO ---
+function excluirRegistro(index) {
+    if (confirm("Tem certeza que deseja apagar este registro permanentemente?")) {
+        let dados = JSON.parse(localStorage.getItem("registrosCT")) || [];
+        
+        // Remove o item do array pelo índice
+        dados.splice(index, 1);
+        
+        // Salva a lista atualizada no localStorage
+        localStorage.setItem("registrosCT", JSON.stringify(dados));
+        
+        // Atualiza a visualização da tabela
+        renderizarTabela();
+    }
 }
 
-function imprimir() { window.print(); }
-
-// --- INICIALIZAÇÃO AO CARREGAR PÁGINA ---
-window.onload = function() {
-    // Sistema começa escondido pelo CSS ou pela tela de login
+function imprimir() {
+    // Garante que os dados da tabela estejam atualizados antes de imprimir
     renderizarTabela();
-};
+    // Abre a caixa de diálogo de impressão do sistema
+    window.print();
+}
